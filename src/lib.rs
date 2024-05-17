@@ -1,7 +1,7 @@
 use anyhow::Result;
 use pyo3::prelude::*;
 use ssh2::Session;
-use std::{io::Read, net::TcpStream};
+use std::{i32, io::Read, net::TcpStream};
 
 #[pyclass]
 struct Client {
@@ -21,12 +21,13 @@ impl Client {
         Ok(Client { sess: sess })
     }
 
-    fn run_command(&mut self, command: &str) -> PyResult<String> {
+    fn run_command(&mut self, command: &str) -> PyResult<(String, i32)> {
         let mut result = String::new();
         let mut channel = self.sess.channel_session().unwrap();
         channel.exec(command).unwrap();
         channel.read_to_string(&mut result).unwrap();
-        Ok(result)
+        let exit_code = channel.exit_status().unwrap();
+        Ok((result, exit_code))
     }
 }
 
