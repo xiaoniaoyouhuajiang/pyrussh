@@ -1,6 +1,6 @@
 import paramiko
 import argparse
-import pyssh
+import _pyssh as pyssh
 from .utils import print_call_time 
 
 @print_call_time

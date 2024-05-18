@@ -33,7 +33,7 @@ impl Client {
 
 /// A Python module implemented in Rust.
 #[pymodule]
-fn pyssh(_py: Python, m: &PyModule) -> PyResult<()> {
+fn _pyssh(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Client>()?;
     Ok(())
 }
