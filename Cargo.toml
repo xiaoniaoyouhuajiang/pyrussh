@@ -9,6 +9,7 @@ name = "_pyssh"
 crate-type = ["cdylib"]
 
 [dependencies]
-pyo3 = "0.20.0"
+pyo3 = "0.21.0"
 ssh2 = "0.9"
 anyhow = "1.0.83"
+
