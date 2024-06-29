@@ -42,7 +42,7 @@ impl Client {
                 None,
             )
             .unwrap();
-        remote_file.write(content_bytes).unwrap();
+        remote_file.write_all(content_bytes).unwrap();
         remote_file.send_eof().unwrap();
         remote_file.wait_eof().unwrap();
         remote_file.close().unwrap();
@@ -60,9 +60,9 @@ impl Client {
         remote_file.wait_close().unwrap();
 
         match String::from_utf8(contents) {
-            Ok(result) => return Ok(result),
-            _ => return Err(PyValueError::new_err("String Conversion failed.")),
-        };
+            Ok(result) => Ok(result),
+            _ => Err(PyValueError::new_err("String Conversion failed.")),
+        }
     }
 }
 
