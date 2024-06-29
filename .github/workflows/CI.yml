@@ -37,14 +37,14 @@ jobs:
           - runner: ubuntu-latest
             target: ppc64le
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
         with:
-          python-version: '3.10'
+          python-version: '3.11'
       - name: Install system deps
-        run: sudo apt install libssl-dev openssl pkg-config
+        run: sudo apt install -y libssl-dev openssl pkg-config
       - name: Install libudev-dev
-        run: sudo apt install libudev-dev
+        run: sudo apt install -y libudev-dev
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
