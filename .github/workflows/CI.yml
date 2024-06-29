@@ -44,7 +44,7 @@ jobs:
       - name: Install system deps
         run: sudo apt install libssl-dev pkg-config
       - name: Install libudev-dev
-        run: apt install libudev-dev
+        run: sudo apt install libudev-dev
       - name: Build wheels
         uses: PyO3/maturin-action@v1
         with:
