@@ -13,3 +13,4 @@ pyo3 = "0.21.0"
 ssh2 = "0.9"
 anyhow = "1.0.83"
 threadpool = "1.8.1"
+openssl = { version = "0.10.64", features = ["vendored"] }
