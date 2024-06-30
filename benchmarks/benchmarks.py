@@ -1,7 +1,7 @@
 import paramiko
 import argparse
-import pyssh
-from .utils import print_call_time 
+import pyrussh
+from utils import print_call_time 
 
 test_str = "h" * 10000
 test_file = "/tmp/test_file"
@@ -13,8 +13,8 @@ def paramiko_auth():
     ssh.connect(args.host, args.port, args.username, args.password)
 
 @print_call_time
-def pyssh_auth(): 
-    client = pyssh.Client(args.host, str(args.port), args.username, args.password)
+def pyrussh_auth(): 
+    client = pyrussh.Client(args.host, str(args.port), args.username, args.password)
 
 @print_call_time
 def paramiko_upload():
@@ -29,8 +29,8 @@ def paramiko_upload():
     ssh.close()
 
 @print_call_time
-def pyssh_upload():
-    client = pyssh.Client(args.host, str(args.port), args.username, args.password)
+def pyrussh_upload():
+    client = pyrussh.Client(args.host, str(args.port), args.username, args.password)
     client.upload_file(test_str, test_file)
 
 parser = argparse.ArgumentParser(description='Get auth info from cmd')
@@ -42,7 +42,7 @@ parser.add_argument('--password', type=str, help='password')
 args = parser.parse_args()
 
 paramiko_auth()
-pyssh_auth()
+pyrussh_auth()
 paramiko_upload()
-pyssh_upload()
+pyrussh_upload()
 

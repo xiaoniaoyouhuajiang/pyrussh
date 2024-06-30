@@ -11,6 +11,7 @@ struct Client {
 
 #[pymethods]
 impl Client {
+    // todo: Agent/Pubkey auth
     #[new]
     fn new_session(host: &str, port: &str, user: &str, passwd: &str) -> PyResult<Self> {
         let tcp = TcpStream::connect(format!("{}:{}", host, port)).unwrap();

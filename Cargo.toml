@@ -12,5 +12,4 @@ crate-type = ["cdylib"]
 pyo3 = "0.21.0"
 ssh2 = "0.9"
 anyhow = "1.0.83"
-openssl = { version = "0.10.64", features = ["vendored"] }
-
+threadpool = "1.8.1"

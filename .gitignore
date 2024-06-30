@@ -13,6 +13,7 @@ __pycache__/
 .Python
 .venv/
 env/
+local/
 bin/
 build/
 develop-eggs/

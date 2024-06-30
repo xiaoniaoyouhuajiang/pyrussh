@@ -1,7 +1,7 @@
 # pyrussh
 Python bindings for libssh2 on top of rust-ssh2
 
-## motivations
+## Motivations
 * learn pyo3
 * I need a high-concurrency SSH connection pool
 
@@ -38,16 +38,22 @@ Enter the `benchmakrs` directory and execute the corresponding Python file to co
 * ~~upload file~~
 * read remote file
 
-### result
-test on my pc:
+### Result
+test on:
+> hardware: AMD Ryzen 5 3600 6-Core Processor; 12 core; ssh into my pc to make benchmark
+
 |time/s|paramiko|pyrussh|
 |--|--|--|
-|authentication|0.316176|0.077625|
-|upload file|0.825472|0.632277|
+|authentication|0.372011|0.120156|
+|upload file|0.484330|0.278672|
 
 ## Todo
 * ~~get exit code for `run_command`~~
 * ~~download/upload file~~
+* add authenticate method
+    * ~~password~~
+    * agent
+    * public key
 * high level api for ssh connection
     * batch running a single command
     * batch running command
