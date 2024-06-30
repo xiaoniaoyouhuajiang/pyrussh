@@ -1,7 +1,5 @@
 __version__ = '0.1.0'
 
-import _pyssh
-
-Client = _pyssh.Client
+from ._pyssh import Client
 
 __all__ = ('Client', 'Pool')

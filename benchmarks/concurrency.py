@@ -1,4 +1,4 @@
-import _pyssh as pyssh
+import pyrussh as pyssh
 import argparse
 from concurrent.futures import ThreadPoolExecutor, as_completed
 from utils import print_call_time

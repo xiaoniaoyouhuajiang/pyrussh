@@ -1,4 +1,4 @@
-# pyssh
+# pyrussh
 Python bindings for libssh2 on top of rust-ssh2
 
 ## motivations
@@ -11,22 +11,28 @@ Python bindings for libssh2 on top of rust-ssh2
 * download/upload file
 
 ## Install & Test
+from pypi
+```
+# python3 -m pip install pyrussh
+pip install pyrussh
+```
+
 developing mode:
 ```shell
-git clone https://github.com/xiaoniaoyouhuajiang/pyssh.git
-cd pyssh
+git clone https://github.com/xiaoniaoyouhuajiang/pyrussh.git
+cd pyrussh
 maturin develop
 ```
 
-bench test paramiko & pyssh 
+bench test paramiko & pyrussh 
 ```shell
-# after installing pyssh
+# after installing pyrussh
 python benchmakrs/benchmarks.py --host <your host> --port <port> --username <..> --password <..> 
 ```
 
 ## Usage
 ### benchmark
-Enter the `benchmakrs` directory and execute the corresponding Python file to compare the performance of pyssh and Paramiko.
+Enter the `benchmakrs` directory and execute the corresponding Python file to compare the performance of pyrussh and Paramiko.
 * ~~authentication~~
 * execution
 * ~~upload file~~
@@ -34,7 +40,7 @@ Enter the `benchmakrs` directory and execute the corresponding Python file to co
 
 ### result
 test on my pc:
-|time/s|paramiko|pyssh|
+|time/s|paramiko|pyrussh|
 |--|--|--|
 |authentication|0.316176|0.077625|
 |upload file|0.825472|0.632277|
