@@ -1,3 +1,8 @@
+mod pool;
+pub use pool::SshPool;
+mod config;
+pub use config::SshConfig;
+use pyo3::types::PyDict;
 use pyo3::{exceptions::PyValueError, prelude::*};
 use ssh2::Session;
 use std::io::Write;
@@ -7,6 +12,49 @@ use std::{i32, io::Read, net::TcpStream};
 #[pyclass]
 struct Client {
     sess: ssh2::Session,
+}
+
+#[pyclass]
+struct Pool {
+    inner: Option<SshPool>,
+    configs: Vec<SshConfig>
+}
+
+#[pymethods]
+impl Pool {
+    #[new]
+    fn new() -> PyResult<Self> {
+        Ok(Pool { inner: None, configs: vec![] })
+    }
+
+    fn add_config(&mut self, host: &str, port: &str, user: &str, passwd: &str) {
+        self.configs.push(SshConfig{
+            host: host.to_string(),
+            port: port.to_string(),
+            user: user.to_string(),
+            passwd: passwd.to_string(),
+        });
+    }
+
+    fn connect(&mut self, thread_number: u64) {
+        if self.inner.is_none() {
+            self.inner = Some(SshPool::new(&self.configs, thread_number));
+        }
+    }
+
+    // fn execute_all(&mut self, command: &str, py: Python) -> PyDict {
+    //     if self.inner.is_none() {
+    //         return Err(PyValueError::new_err("not connected"));
+    //     }
+
+    //     let py_dict = PyDict::new(py);
+
+    //     let results = self.inner.as_mut().unwrap().run_command(command);
+    //     for (key, (value_str, value_int)) in results {
+    //         py_dict.set_item(key, (value_str, value_int))?;
+    //     }
+    //     *py_dict
+    // }
 }
 
 #[pymethods]
