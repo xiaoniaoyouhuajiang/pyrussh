@@ -2,11 +2,11 @@ mod pool;
 pub use pool::SshPool;
 mod config;
 pub use config::SshConfig;
-use pyo3::types::PyDict;
 use pyo3::{exceptions::PyValueError, prelude::*};
 use ssh2::Session;
 use std::io::Write;
 use std::path::Path;
+use std::process::Command;
 use std::{i32, io::Read, net::TcpStream};
 
 #[pyclass]
@@ -17,18 +17,21 @@ struct Client {
 #[pyclass]
 struct Pool {
     inner: Option<SshPool>,
-    configs: Vec<SshConfig>
+    configs: Vec<SshConfig>,
 }
 
 #[pymethods]
 impl Pool {
     #[new]
     fn new() -> PyResult<Self> {
-        Ok(Pool { inner: None, configs: vec![] })
+        Ok(Pool {
+            inner: None,
+            configs: vec![],
+        })
     }
 
     fn add_config(&mut self, host: &str, port: &str, user: &str, passwd: &str) {
-        self.configs.push(SshConfig{
+        self.configs.push(SshConfig {
             host: host.to_string(),
             port: port.to_string(),
             user: user.to_string(),
@@ -42,19 +45,14 @@ impl Pool {
         }
     }
 
-    // fn execute_all(&mut self, command: &str, py: Python) -> PyDict {
-    //     if self.inner.is_none() {
-    //         return Err(PyValueError::new_err("not connected"));
-    //     }
+    fn execute_all(&mut self, command: &str) -> PyResult<Vec<(String, (String, i32))>> {
+        if self.inner.is_none() {
+            return Err(PyValueError::new_err("not connected"));
+        }
 
-    //     let py_dict = PyDict::new(py);
-
-    //     let results = self.inner.as_mut().unwrap().run_command(command);
-    //     for (key, (value_str, value_int)) in results {
-    //         py_dict.set_item(key, (value_str, value_int))?;
-    //     }
-    //     *py_dict
-    // }
+        let results = self.inner.as_mut().unwrap().run_command(command);
+        Ok(results)
+    }
 }
 
 #[pymethods]
@@ -119,5 +117,6 @@ impl Client {
 #[pymodule]
 fn _pyssh(_py: Python, m: &PyModule) -> PyResult<()> {
     m.add_class::<Client>()?;
+    m.add_class::<Pool>()?;
     Ok(())
 }
